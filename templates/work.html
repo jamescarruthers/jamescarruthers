@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="crumb">
+  <a href="{{ url('works/') }}">{{ site.nav.works }}</a>
+  {% for g in groups %} / <a href="{{ g.url }}">{{ g.title }}</a>{% endfor %}
+</p>
+<article class="work">
+  {% for img in work.images %}
+  <figure><img src="{{ url(img) }}" alt="{{ work.title }}"></figure>
+  {% endfor %}
+  <h1>{{ work.title }}</h1>
+  <dl class="details">
+    {% if work.year %}<dt>Year</dt><dd>{{ work.year }}</dd>{% endif %}
+    {% if work.medium %}<dt>Medium</dt><dd>{{ work.medium }}</dd>{% endif %}
+    {% if work.dimensions %}<dt>Dimensions</dt><dd>{{ work.dimensions }}</dd>{% endif %}
+    {% if work.location %}<dt>Location</dt><dd>{{ work.location }}</dd>{% endif %}
+    {% if work.credit %}<dt>Photo</dt><dd>{{ work.credit }}</dd>{% endif %}
+  </dl>
+  <div class="prose">{{ work.body|safe }}</div>
+  {% if work.tags %}
+  <p class="tags">{% for t in work.tags %}<a href="{{ url('tags/' ~ t ~ '/') }}">{{ t }}</a>{% endfor %}</p>
+  {% endif %}
+</article>
+{% endblock %}

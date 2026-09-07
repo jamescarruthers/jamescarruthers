@@ -1,0 +1,15 @@
+# Site settings. Edit these; nothing else needs touching for basic changes.
+title: James Carruthers
+description: Artist. Sculpture, sound and public work.
+author: James Carruthers
+
+# Leave empty for a custom domain or a user site (name.github.io).
+# For a project site (name.github.io/repo) the GitHub workflow sets this
+# automatically. Set it by hand only when building locally for a sub-path.
+base_path: ""
+
+# Labels used in the navigation. Keys are fixed; change the values freely.
+nav:
+  works: Works
+  activity: Exhibitions & Projects
+  contact: Contact

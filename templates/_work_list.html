@@ -1,0 +1,11 @@
+<ul class="grid">
+  {% for w in works %}
+  <li>
+    <a href="{{ w.url }}">
+      {% if w.images %}<img src="{{ url(w.images[0]) }}" alt="{{ w.title }}" loading="lazy">{% endif %}
+      <span class="caption">{{ w.title }}{% if w.year %}, {{ w.year }}{% endif %}</span>
+      {% if w.medium %}<span class="caption muted">{{ w.medium }}</span>{% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>

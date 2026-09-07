@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="prose">
+  {{ page.body|safe }}
+</article>
+
+{% if groups %}
+<section>
+  <h2 class="section-title"><a href="{{ url('works/') }}">{{ site.nav.works }}</a></h2>
+  <ul class="grid">
+    {% for g in groups %}
+    <li>
+      <a href="{{ g.url }}">
+        {% if g.cover %}<img src="{{ url(g.cover) }}" alt="{{ g.title }}" loading="lazy">{% endif %}
+        <span class="caption">{{ g.title }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if activity %}
+<section>
+  <h2 class="section-title"><a href="{{ url('activity/') }}">{{ site.nav.activity }}</a></h2>
+  {% include "_activity_list.html" with context %}
+</section>
+{% endif %}
+{% endblock %}

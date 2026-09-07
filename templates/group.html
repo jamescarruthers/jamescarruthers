@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="crumb"><a href="{{ url('works/') }}">{{ site.nav.works }}</a></p>
+<h1>{{ group.title }}</h1>
+<div class="prose intro">{{ group.body|safe }}</div>
+{% with works = group.works %}{% include "_work_list.html" %}{% endwith %}
+{% endblock %}
