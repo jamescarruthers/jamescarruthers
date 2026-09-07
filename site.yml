@@ -11,5 +11,6 @@ base_path: ""
 # Labels used in the navigation. Keys are fixed; change the values freely.
 nav:
   works: Works
+  latest: Latest
   activity: Exhibitions & Projects
   contact: Contact

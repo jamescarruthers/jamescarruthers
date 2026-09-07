@@ -1,6 +1,7 @@
 ---
 title: Sound Mirror I
 year: 2023
+date: 2023-05
 medium: Cast concrete, steel
 dimensions: 240 × 180 × 90 cm
 tags: [sound-mirrors, sculpture]

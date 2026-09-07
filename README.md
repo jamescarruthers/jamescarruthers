@@ -40,8 +40,11 @@ images:
 Text about the work. Markdown is fine here.
 ```
 
-Optional fields: `location`, `credit` (photo credit). The first image is used
-as the thumbnail. Every tag gets its own page at `/tags/<tag>/`.
+Optional fields: `location`, `credit` (photo credit), `date` (`2024-03` or
+`2024-03-14`, to order works within a year). The first image is used as the
+thumbnail. Every tag gets its own page at `/tags/<tag>/`.
+
+`/latest/` lists every work, newest first.
 
 ### Groups
 

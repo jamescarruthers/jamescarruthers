@@ -60,15 +60,6 @@ def as_list(value):
     return [value]
 
 
-def sort_key_year(item):
-    # Newest first; missing year sorts last.
-    year = item.get("year")
-    try:
-        return -int(str(year)[:4])
-    except (TypeError, ValueError):
-        return 1
-
-
 def format_date(value):
     """Human date: 2024-03-14 -> 14 March 2024, 2024-03 -> March 2024, 2024 -> 2024."""
     if isinstance(value, date):
@@ -124,7 +115,10 @@ def main():
         w["tags"] = as_list(w.get("tags"))
         w["images"] = as_list(w.get("images")) or as_list(w.get("image"))
         w["url"] = url(f"works/{w['slug']}/")
-    works.sort(key=sort_key_year)
+        # `date` (YYYY, YYYY-MM or YYYY-MM-DD) orders works; `year` is the fallback.
+        w["sort_date"] = parse_date(w.get("date") or w.get("year"))
+        w.setdefault("year", w["sort_date"].year if w["sort_date"] != date.min else None)
+    works.sort(key=lambda w: w["sort_date"], reverse=True)  # newest first
 
     # A group collects every work carrying one of its tags. Works keep the
     # order of the group's `works:` list if given, else newest first.
@@ -189,6 +183,8 @@ def main():
     render("works.html", "works/index.html",
            page={"title": site["nav"].get("works", "Works")},
            groups=groups, ungrouped=ungrouped)
+    render("latest.html", "latest/index.html",
+           page={"title": site["nav"].get("latest", "Latest")}, works=works)
     for g in groups:
         render("group.html", f"works/{g['slug']}/index.html", page=g, group=g)
     for i, w in enumerate(works):
