@@ -30,6 +30,12 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Cache resized images
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: images-${{ hashFiles('images/**', 'build.py') }}
+          restore-keys: images-
       - name: Build
         # base_path is "" for a custom domain or user site, "/repo" for a project site.
         run: python build.py

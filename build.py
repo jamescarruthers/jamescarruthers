@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 """Build the site: markdown in content/ -> flat HTML in _site/.
 
-Usage:  python build.py            (writes to _site/)
-        BASE_PATH=/repo python build.py   (for hosting under a sub-path)
+Usage:  python build.py                     (writes to _site/)
+        HOLDING=0 python build.py           (preview the full site while
+                                             `holding: true` is set)
+        BASE_PATH=/repo python build.py     (for hosting under a sub-path)
+
+Images: put full-size photographs in images/. The build resizes each one to
+several widths (see SIZES), strips metadata, and writes them to _site/images/.
+Resized files are cached in .cache/ so unchanged images are not redone.
 """
 
 import os
@@ -15,12 +21,20 @@ from pathlib import Path
 import markdown
 import yaml
 from jinja2 import Environment, FileSystemLoader
+from PIL import Image, ImageOps
 
 ROOT = Path(__file__).parent
 CONTENT = ROOT / "content"
 TEMPLATES = ROOT / "templates"
 STATIC = ROOT / "static"
+IMAGES = ROOT / "images"
+CACHE = ROOT / ".cache" / "images"
 OUT = ROOT / "_site"
+
+# Widths (px) to generate for each photograph. Images are never upscaled.
+SIZES = [800, 1600, 2400]
+JPEG_QUALITY = 82
+RASTER = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".gif", ".bmp"}
 
 MD = markdown.Markdown(extensions=["extra", "smarty"])
 
@@ -93,6 +107,52 @@ def parse_date(value):
         return date.min
 
 
+# ---------------------------------------------------------------- images
+
+def process_images():
+    """Resize images/** into CACHE and copy to OUT/images.
+
+    Returns {relative source path: [(width, height, output path), ...]}
+    ordered small to large, or None for files copied unchanged (e.g. SVG).
+    """
+    variants = {}
+    if not IMAGES.is_dir():
+        return variants
+    for src in sorted(p for p in IMAGES.rglob("*") if p.is_file()):
+        rel = src.relative_to(IMAGES)
+        if src.suffix.lower() not in RASTER:
+            target = OUT / "images" / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(src, target)
+            variants[rel.as_posix()] = None
+            continue
+
+        (CACHE / rel.parent).mkdir(parents=True, exist_ok=True)
+        with Image.open(src) as im:
+            im = ImageOps.exif_transpose(im)
+            full_w, full_h = im.size
+            icc = im.info.get("icc_profile")
+            outputs = []
+            for target_w in sorted({min(w, full_w) for w in SIZES}):
+                name = f"{rel.stem}-{target_w}.jpg"
+                cached = CACHE / rel.parent / name
+                target_h = round(full_h * target_w / full_w)
+                if not cached.exists() or cached.stat().st_mtime < src.stat().st_mtime:
+                    resized = im.convert("RGB")
+                    if target_w < full_w:
+                        resized = resized.resize((target_w, target_h), Image.LANCZOS)
+                    resized.save(cached, "JPEG", quality=JPEG_QUALITY, optimize=True,
+                                 progressive=True, icc_profile=icc)
+                    print(f"  resized {rel} -> {name}")
+                out_rel = (Path("images") / rel.parent / name).as_posix()
+                target = OUT / out_rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(cached, target)
+                outputs.append((target_w, target_h, out_rel))
+        variants[rel.as_posix()] = outputs
+    return variants
+
+
 # ----------------------------------------------------------------- build
 
 def main():
@@ -105,6 +165,40 @@ def main():
     env = Environment(loader=FileSystemLoader(str(TEMPLATES)), autoescape=True)
     env.filters["fmt_date"] = format_date
     env.globals.update(site=site, url=url, year=date.today().year)
+
+    holding = os.environ.get("HOLDING", "1" if site.get("holding") else "0") == "1"
+
+    if OUT.exists():
+        shutil.rmtree(OUT)
+    OUT.mkdir()
+    for extra in ("CNAME", ".nojekyll"):
+        if (ROOT / extra).exists():
+            shutil.copy(ROOT / extra, OUT / extra)
+
+    if holding:
+        # Publish only the holding page; the rest of the site stays unbuilt.
+        page = read_page(CONTENT / "holding.md")
+        (OUT / "index.html").write_text(
+            env.get_template("holding.html").render(page=page), encoding="utf-8")
+        print("Built holding page only (holding: true in site.yml)")
+        return
+
+    variants = process_images()
+
+    def image(path):
+        """Template helper: src/srcset/width/height for an image path."""
+        rel = path.lstrip("/")
+        rel = rel[len("images/"):] if rel.startswith("images/") else rel
+        outputs = variants.get(rel)
+        if not outputs:
+            return {"src": url(path), "srcset": "", "width": None, "height": None}
+        w, h, _ = outputs[-1]
+        return {
+            "src": url(outputs[0][2]),
+            "srcset": ", ".join(f"{url(o)} {ow}w" for ow, _, o in outputs),
+            "width": w, "height": h,
+        }
+    env.globals["image"] = image
 
     # --- load content
     works = read_dir(CONTENT / "works")
@@ -156,14 +250,8 @@ def main():
         years[-1][1].append(a)
 
     # --- write output
-    if OUT.exists():
-        shutil.rmtree(OUT)
-    OUT.mkdir()
     if STATIC.is_dir():
         shutil.copytree(STATIC, OUT, dirs_exist_ok=True)
-    for extra in ("CNAME", ".nojekyll"):
-        if (ROOT / extra).exists():
-            shutil.copy(ROOT / extra, OUT / extra)
 
     written = 0
 
@@ -176,6 +264,8 @@ def main():
 
     # Simple pages: content/*.md -> /<slug>/ (index.md -> /)
     for page in read_dir(CONTENT):
+        if page["slug"] == "holding":
+            continue
         out = "index.html" if page["slug"] == "index" else f"{page['slug']}/index.html"
         template = page.get("template", "home.html" if page["slug"] == "index" else "page.html")
         render(template, out, page=page, groups=groups, activity=activity[:5])

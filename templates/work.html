@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% from "_img.html" import img %}
 {% block content %}
 <p class="crumb">
   <a href="{{ url('works/') }}">{{ site.nav.works }}</a>
   {% for g in groups %} / <a href="{{ g.url }}">{{ g.title }}</a>{% endfor %}
 </p>
 <article class="work">
-  {% for img in work.images %}
-  <figure><img src="{{ url(img) }}" alt="{{ work.title }}"></figure>
+  {% for src in work.images %}
+  <figure>{{ img(src, work.title, sizes="(max-width: 64rem) 100vw, 64rem", lazy=not loop.first) }}</figure>
   {% endfor %}
   <h1>{{ work.title }}</h1>
   <dl class="details">

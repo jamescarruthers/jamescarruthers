@@ -1,9 +1,19 @@
 # jamescarruthers.com
 
 A static site built from markdown. `build.py` reads `content/`, renders it
-with the templates in `templates/`, copies `static/`, and writes flat HTML to
-`_site/`. GitHub Actions builds and deploys it to GitHub Pages on every push
-to `main`.
+with the templates in `templates/`, resizes the photographs in `images/`,
+copies `static/`, and writes flat HTML to `_site/`. GitHub Actions builds
+and deploys it to GitHub Pages on every push to `main`.
+
+## Holding page
+
+While `holding: true` is set in `site.yml`, the build publishes only the
+holding page (`content/holding.md`) and nothing else. Set it to `false` when
+the site is ready. To preview the full site locally in the meantime:
+
+```
+HOLDING=0 python build.py
+```
 
 ## Editing content
 
@@ -17,8 +27,9 @@ content/
   works/              one file per work
   groups/             one file per group of works
   activity/           exhibitions, talks, commissions, etc.
+images/
+  works/              full-size photographs, resized by the build
 static/
-  images/works/       photographs
   style.css
 ```
 
@@ -88,6 +99,16 @@ link: https://example.com
 `date` can be `2024`, `2024-03` or `2024-03-14`. `type` is free text. If the
 file has body text below the header, the entry gets its own page with the text
 and any `images:` listed; otherwise it is a single line in the list.
+
+### Images
+
+Put full-size photographs in `images/` (JPEG, PNG, TIFF or WebP) and refer to
+them from the markdown by path, e.g. `images/works/sound-mirror-i.jpg`. The
+build resizes each one to 800, 1600 and 2400 pixels wide (never larger than
+the original), saves them as JPEG with metadata stripped, and writes a
+`srcset` so browsers pick the right size. Resized files are cached in
+`.cache/` locally and in the GitHub Actions cache, so unchanged images are
+not processed again. SVG files are copied unchanged.
 
 ### Site settings
 

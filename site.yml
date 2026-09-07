@@ -3,6 +3,11 @@ title: James Carruthers
 description: Artist. Sculpture, sound and public work.
 author: James Carruthers
 
+# While true, only the holding page (content/holding.md) is published.
+# Set to false when the site is ready. Preview the full site locally with
+# HOLDING=0 python build.py
+holding: true
+
 # Leave empty for a custom domain or a user site (name.github.io).
 # For a project site (name.github.io/repo) the GitHub workflow sets this
 # automatically. Set it by hand only when building locally for a sub-path.

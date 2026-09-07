@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_img.html" import img %}
 {% block content %}
 <p class="crumb"><a href="{{ url('activity/') }}">{{ site.nav.activity }}</a></p>
 <article class="prose">
@@ -7,7 +8,7 @@
     {% if entry.type %}{{ entry.type }} · {% endif %}{{ entry.date|fmt_date }}{% if entry.venue %} · {{ entry.venue }}{% endif %}{% if entry.location %}, {{ entry.location }}{% endif %}
     {% if entry.link %} · <a href="{{ entry.link }}">Link</a>{% endif %}
   </p>
-  {% for img in entry.images or [] %}<figure><img src="{{ url(img) }}" alt="{{ entry.title }}"></figure>{% endfor %}
+  {% for src in entry.images or [] %}<figure>{{ img(src, entry.title, sizes="(max-width: 64rem) 100vw, 64rem") }}</figure>{% endfor %}
   {{ entry.body|safe }}
 </article>
 {% endblock %}

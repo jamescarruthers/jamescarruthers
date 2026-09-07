@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_img.html" import img %}
 {% block content %}
 <article class="prose">
   {{ page.body|safe }}
@@ -11,7 +12,7 @@
     {% for g in groups %}
     <li>
       <a href="{{ g.url }}">
-        {% if g.cover %}<img src="{{ url(g.cover) }}" alt="{{ g.title }}" loading="lazy">{% endif %}
+        {% if g.cover %}{{ img(g.cover, g.title, sizes="(max-width: 40rem) 100vw, 20rem") }}{% endif %}
         <span class="caption">{{ g.title }}</span>
       </a>
     </li>
