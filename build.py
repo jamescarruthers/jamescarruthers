@@ -2,8 +2,7 @@
 """Build the site: markdown in content/ -> flat HTML in _site/.
 
 Usage:  python build.py                     (writes to _site/)
-        HOLDING=0 python build.py           (preview the full site while
-                                             `holding: true` is set)
+        HOLDING=0 python build.py           (build as if `holding: false`)
         BASE_PATH=/repo python build.py     (for hosting under a sub-path)
 
 Images: put full-size photographs in images/. The build resizes each one to
@@ -167,6 +166,10 @@ def main():
     env.globals.update(site=site, url=url, year=date.today().year)
 
     holding = os.environ.get("HOLDING", "1" if site.get("holding") else "0") == "1"
+    # While holding, the public index is the holding page and the real home
+    # page is written to a preview file (site.yml: holding_preview).
+    home_file = site.get("holding_preview", "index2.html") if holding else "index.html"
+    env.globals.update(holding=holding, home_url=url(home_file if holding else ""))
 
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -176,12 +179,9 @@ def main():
             shutil.copy(ROOT / extra, OUT / extra)
 
     if holding:
-        # Publish only the holding page; the rest of the site stays unbuilt.
         page = read_page(CONTENT / "holding.md")
         (OUT / "index.html").write_text(
             env.get_template("holding.html").render(page=page), encoding="utf-8")
-        print("Built holding page only (holding: true in site.yml)")
-        return
 
     variants = process_images()
 
@@ -266,7 +266,7 @@ def main():
     for page in read_dir(CONTENT):
         if page["slug"] == "holding":
             continue
-        out = "index.html" if page["slug"] == "index" else f"{page['slug']}/index.html"
+        out = home_file if page["slug"] == "index" else f"{page['slug']}/index.html"
         template = page.get("template", "home.html" if page["slug"] == "index" else "page.html")
         render(template, out, page=page, groups=groups, activity=activity[:5])
 
@@ -290,6 +290,8 @@ def main():
             render("activity_entry.html", f"activity/{a['slug']}/index.html", page=a, entry=a)
 
     print(f"Built {written} pages -> {OUT.relative_to(ROOT)}/")
+    if holding:
+        print(f"Holding page at index.html; preview the home page at {home_file}")
 
 
 if __name__ == "__main__":

@@ -7,13 +7,11 @@ and deploys it to GitHub Pages on every push to `main`.
 
 ## Holding page
 
-While `holding: true` is set in `site.yml`, the build publishes only the
-holding page (`content/holding.md`) and nothing else. Set it to `false` when
-the site is ready. To preview the full site locally in the meantime:
-
-```
-HOLDING=0 python build.py
-```
+While `holding: true` is set in `site.yml`, the public index is the holding
+page (`content/holding.md`) and the real home page is published at the
+address given by `holding_preview` (default `index2.html`), so you can check
+the site at `/index2.html` while visitors see the holding page. Pages carry a
+noindex tag in this mode. Set `holding` to `false` when the site is ready.
 
 ## Editing content
 
