@@ -34,7 +34,7 @@ img { max-width: 100%; height: auto; display: block; }
   border-bottom: 1px solid var(--rule);
 }
 .site-title { font-size: 1.15rem; font-weight: normal; letter-spacing: 0.02em; }
-nav { display: flex; gap: 1.5rem; margin-left: auto; }
+nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin-left: auto; }
 nav a { color: var(--muted); }
 nav a:hover { color: var(--ink); }
 
@@ -84,6 +84,7 @@ h3 { font-size: 1.1rem; }
 }
 .details dt { color: var(--muted); }
 .details dd { margin: 0; }
+.details a { text-decoration: underline; text-underline-offset: 0.15em; }
 .tags { font-size: 0.85rem; color: var(--muted); }
 .tags a { margin-right: 0.75rem; }
 
@@ -110,5 +111,7 @@ h3 { font-size: 1.1rem; }
 
 @media (max-width: 40rem) {
   html { font-size: 16px; }
+  .site-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  nav { margin-left: 0; }
   .activity li { grid-template-columns: 1fr; gap: 0; }
 }

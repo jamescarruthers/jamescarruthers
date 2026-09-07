@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ page.title }}</h1>
+{% if works %}
+{% with show_price = true %}{% include "_work_list.html" %}{% endwith %}
+{% else %}
+<p class="muted">Nothing is available at the moment. Please <a href="{{ url('contact/') }}">get in touch</a> about commissions.</p>
+{% endif %}
+{% endblock %}
