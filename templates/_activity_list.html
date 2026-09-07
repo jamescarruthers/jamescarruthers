@@ -1,0 +1,12 @@
+<ul class="activity">
+  {% for a in activity %}
+  <li>
+    <span class="date">{{ a.date|fmt_date }}</span>
+    <span class="entry">
+      {% if a.type %}<span class="type">{{ a.type }}</span>{% endif %}
+      {% if a.url %}<a href="{{ a.url }}">{{ a.title }}</a>{% elif a.link %}<a href="{{ a.link }}">{{ a.title }}</a>{% else %}{{ a.title }}{% endif %}
+      {% if a.venue or a.location %}<span class="muted">{% if a.venue %}{{ a.venue }}{% endif %}{% if a.venue and a.location %}, {% endif %}{{ a.location or "" }}</span>{% endif %}
+    </span>
+  </li>
+  {% endfor %}
+</ul>

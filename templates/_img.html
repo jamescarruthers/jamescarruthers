@@ -1,0 +1,4 @@
+{% macro img(path, alt, sizes="100vw", lazy=true) -%}
+{%- set i = image(path) -%}
+<img src="{{ i.src }}"{% if i.srcset %} srcset="{{ i.srcset }}" sizes="{{ sizes }}"{% endif %}{% if i.width %} width="{{ i.width }}" height="{{ i.height }}"{% endif %} alt="{{ alt }}"{% if lazy %} loading="lazy"{% endif %}>
+{%- endmacro %}

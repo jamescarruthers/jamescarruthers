@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ page.title }}</h1>
+
+{% for g in groups %}
+<section class="group">
+  <h2><a href="{{ g.url }}">{{ g.title }}</a></h2>
+  <div class="prose intro">{{ g.body|safe }}</div>
+  {% with works = g.works %}{% include "_work_list.html" %}{% endwith %}
+</section>
+{% endfor %}
+
+{% if ungrouped %}
+<section class="group">
+  <h2>{% if groups %}Other works{% else %}All works{% endif %}</h2>
+  {% with works = ungrouped %}{% include "_work_list.html" %}{% endwith %}
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="crumb"><a href="{{ url('works/') }}">{{ site.nav.works }}</a></p>
+<h1>Tagged “{{ tag }}”</h1>
+{% include "_work_list.html" %}
+{% endblock %}

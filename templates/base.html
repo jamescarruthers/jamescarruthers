@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.title and page.title != site.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+<meta name="description" content="{{ page.description or site.description }}">
+<link rel="stylesheet" href="{{ url('style.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-title" href="{{ url('') }}">{{ site.title }}</a>
+  <nav>
+    <a href="{{ url('works/') }}">{{ site.nav.works }}</a>
+    <a href="{{ url('latest/') }}">{{ site.nav.latest }}</a>
+    <a href="{{ url('activity/') }}">{{ site.nav.activity }}</a>
+    <a href="{{ url('contact/') }}">{{ site.nav.contact }}</a>
+  </nav>
+</header>
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <p>&copy; {{ year }} {{ site.author }}</p>
+</footer>
+</body>
+</html>

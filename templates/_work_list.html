@@ -1,0 +1,12 @@
+{% from "_img.html" import img %}
+<ul class="grid">
+  {% for w in works %}
+  <li>
+    <a href="{{ w.url }}">
+      {% if w.images %}{{ img(w.images[0], w.title, sizes="(max-width: 40rem) 100vw, 20rem") }}{% endif %}
+      <span class="caption">{{ w.title }}{% if w.year %}, {{ w.year }}{% endif %}</span>
+      {% if w.medium %}<span class="caption muted">{{ w.medium }}</span>{% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
