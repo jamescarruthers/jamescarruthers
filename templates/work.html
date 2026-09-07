@@ -16,6 +16,7 @@
     {% if work.dimensions %}<dt>Dimensions</dt><dd>{{ work.dimensions }}</dd>{% endif %}
     {% if work.location %}<dt>Location</dt><dd>{{ work.location }}</dd>{% endif %}
     {% if work.credit %}<dt>Photo</dt><dd>{{ work.credit }}</dd>{% endif %}
+    {% if work.available %}<dt>Availability</dt><dd>Available{% if work.price %}, {{ work.price }}{% endif %} &middot; <a href="{{ url('contact/') }}">Enquire</a></dd>{% endif %}
   </dl>
   <div class="prose">{{ work.body|safe }}</div>
   {% if work.tags %}

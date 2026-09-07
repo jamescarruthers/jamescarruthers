@@ -55,6 +55,25 @@ thumbnail. Every tag gets its own page at `/tags/<tag>/`.
 
 `/latest/` lists every work, newest first.
 
+### Available works
+
+Mark a work for sale with `available: true` and give it a `price`. The price
+is free text, so `£1,200`, `£1,200 + VAT` or `Price on request` all work.
+
+```
+---
+title: Untitled (estuary)
+year: 2023
+available: true
+price: £450
+---
+```
+
+`/available/` lists every available work. Availability and price also show
+wherever the work appears: the Works, Latest, group and tag pages, and the
+work's own page, which links to the contact page. Remove `available` (or
+set it to `false`) when a work sells.
+
 ### Groups
 
 A group is a title and an introduction, followed by every work carrying its

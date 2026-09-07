@@ -6,6 +6,7 @@
       {% if w.images %}{{ img(w.images[0], w.title, sizes="(max-width: 40rem) 100vw, 20rem") }}{% endif %}
       <span class="caption">{{ w.title }}{% if w.year %}, {{ w.year }}{% endif %}</span>
       {% if w.medium %}<span class="caption muted">{{ w.medium }}</span>{% endif %}
+      {% if w.available %}<span class="caption">Available{% if w.price %}, {{ w.price }}{% endif %}</span>{% endif %}
     </a>
   </li>
   {% endfor %}

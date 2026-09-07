@@ -209,6 +209,8 @@ def main():
         w["tags"] = as_list(w.get("tags"))
         w["images"] = as_list(w.get("images")) or as_list(w.get("image"))
         w["url"] = url(f"works/{w['slug']}/")
+        # Mark a work for sale with `available: true` (or the tag "available").
+        w["available"] = bool(w.get("available")) or "available" in w["tags"]
         # `date` (YYYY, YYYY-MM or YYYY-MM-DD) orders works; `year` is the fallback.
         w["sort_date"] = parse_date(w.get("date") or w.get("year"))
         w.setdefault("year", w["sort_date"].year if w["sort_date"] != date.min else None)
@@ -275,6 +277,9 @@ def main():
            groups=groups, ungrouped=ungrouped)
     render("latest.html", "latest/index.html",
            page={"title": site["nav"].get("latest", "Latest")}, works=works)
+    render("available.html", "available/index.html",
+           page={"title": site["nav"].get("available", "Available")},
+           works=[w for w in works if w["available"]])
     for g in groups:
         render("group.html", f"works/{g['slug']}/index.html", page=g, group=g)
     for i, w in enumerate(works):
