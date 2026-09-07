@@ -69,8 +69,9 @@ price: £450
 ---
 ```
 
-`/available/` lists every available work with its price, and the work's own
-page shows the price with a link to the contact page. Remove `available` (or
+`/available/` lists every available work. Availability and price also show
+wherever the work appears: the Works, Latest, group and tag pages, and the
+work's own page, which links to the contact page. Remove `available` (or
 set it to `false`) when a work sells.
 
 ### Groups
