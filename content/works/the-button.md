@@ -9,7 +9,7 @@ tags: [sculpture]
 images:
   - images/works/untitled-drawing.svg
 ---
-This piece represents a moment in time, an event that I only realised the significance after a passing.
+I only understood this one after my Uncle passed. He said yes.
 
 > The orange button on the telephone did nothing. I pressed it whilst talking. A stim to soothe my social discomfort.
 >
