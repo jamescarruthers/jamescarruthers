@@ -1,7 +1,7 @@
 ---
-title: On acoustic mirrors
+title: So you want to build a module
 type: Talk
-date: 2023-11-02
-venue: Example School of Art
-location: Glasgow
+date: 2017-11
+venue: CV Freqs
+location: House of Vans, London
 ---
