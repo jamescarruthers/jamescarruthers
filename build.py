@@ -220,6 +220,11 @@ def main():
     # order of the group's `works:` list if given, else newest first.
     for g in groups:
         g["tags"] = as_list(g.get("tags")) or as_list(g.get("tag")) or [g["slug"]]
+        # `summary` is the short introduction shown on listing pages; the
+        # body is the long version shown on the group's own page.
+        MD.reset()
+        g["summary"] = MD.convert(str(g["summary"]).strip()) if g.get("summary") else g["body"]
+        g["has_more"] = bool(g.get("summary")) and g["body"].strip() != g["summary"].strip()
         g["url"] = url(f"works/{g['slug']}/")
         members = [w for w in works if set(w["tags"]) & set(g["tags"])]
         if g.get("works"):

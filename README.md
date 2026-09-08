@@ -84,9 +84,15 @@ tag. `content/groups/sound-mirrors.md`:
 title: Sound Mirrors
 tag: sound-mirrors
 order: 1
+summary: >
+  One or two sentences shown on the Works page, with a "Read more" link.
 ---
-Introduction to the series.
+The full introduction, shown on the group's own page. Any length, any
+markdown.
 ```
+
+`summary` is optional. Without it the full introduction is shown in both
+places.
 
 Optional fields:
 

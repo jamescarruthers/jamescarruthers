@@ -5,7 +5,7 @@
 {% for g in groups %}
 <section class="group">
   <h2><a href="{{ g.url }}">{{ g.title }}</a></h2>
-  <div class="prose intro">{{ g.body|safe }}</div>
+  <div class="prose intro">{{ g.summary|safe }}{% if g.has_more %}<p><a href="{{ g.url }}">Read more</a></p>{% endif %}</div>
   {% with works = g.works %}{% include "_work_list.html" %}{% endwith %}
 </section>
 {% endfor %}
