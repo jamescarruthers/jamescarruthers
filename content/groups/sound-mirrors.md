@@ -6,13 +6,11 @@ summary: >
   An ongoing series of sculptures that borrow the form of the concrete
   acoustic mirrors built along the British coast in the 1920s.
 ---
-*Sound Mirrors* is an ongoing series of sculptures that borrow the form of
-the concrete acoustic mirrors built along the British coast in the 1920s.
-
-> My partner and I sat in front of the sound mirror on Abbot’s Cliff in Kent on one of our very early dates. We ate sandwiches and conversed about our lives, relationships and love. 
+*Sound Mirrors* is an ongoing series of sculptures that borrow the form of the concrete acoustic mirrors built along the British coast in the 1920s. They were built to hear aircraft before they arrived. Listening for what was coming.
+> My partner and I sat in front of the sound mirror on Abbot’s Cliff in Kent on one of our first dates. We ate sandwiches and talked about our lives, relationships and love.
 >
-> The mirror is a literal representation of listening and reflecting, of searching and understanding. After being witness to a formative exchange, the concrete monolith became a totem for our relationship.
+> The mirror is a machine for listening. After that afternoon it became a totem for our relationship.
 >
-> Over the course of time, after losing loved ones and an incident of dealing with my own mortality, this has changed what the listening is for. Now it reaches past what's there, transcending the physical.
+> Since then, losing people, and a brush with my own mortality, have changed what the listening is for. It faces the other way now. Listening for what isn’t there and never will be. But was, once.
 >
-> Sited on a cliff top facing out on the ever changing sea over the last century, a straining ear chasing the ether.
+>A century on the cliff top, facing the sea. A straining ear chasing the ether.
