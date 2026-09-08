@@ -40,6 +40,37 @@ MD = markdown.Markdown(extensions=["extra", "smarty"])
 
 # ---------------------------------------------------------------- helpers
 
+SIMPLE_LINE = re.compile(r"^([A-Za-z_][\w-]*):[ \t]+(.+?)\s*$")
+
+
+def parse_front_matter(raw, path):
+    """Parse the YAML header, forgiving unquoted colons and hashes in values.
+
+    Plain YAML rejects `title: Plotting: the joy of analogue` and silently
+    truncates `title: Work #3`. Any simple `key: value` line that YAML cannot
+    read as written, or that contains ' #', is wrapped in quotes first.
+    """
+    fixed = []
+    for line in raw.splitlines():
+        m = SIMPLE_LINE.match(line)
+        if m:
+            key, value = m.groups()
+            needs_quotes = " #" in value
+            if not needs_quotes:
+                try:
+                    yaml.safe_load(line)
+                except yaml.YAMLError:
+                    needs_quotes = True
+            if needs_quotes and not (value[0] in "\"'" and value[-1] == value[0]):
+                value = value.replace("\\", "\\\\").replace('"', '\\"')
+                line = f'{key}: "{value}"'
+        fixed.append(line)
+    try:
+        return yaml.safe_load("\n".join(fixed)) or {}
+    except yaml.YAMLError as e:
+        raise SystemExit(f"\n{path}: cannot read the header between the --- lines.\n{e}\n")
+
+
 def read_page(path):
     """Read a markdown file with optional YAML front matter."""
     text = path.read_text(encoding="utf-8")
@@ -48,7 +79,7 @@ def read_page(path):
     if text.startswith("---"):
         parts = text.split("---", 2)
         if len(parts) == 3:
-            meta = yaml.safe_load(parts[1]) or {}
+            meta = parse_front_matter(parts[1], path.relative_to(ROOT))
             body = parts[2]
     MD.reset()
     html = MD.convert(body.strip())
