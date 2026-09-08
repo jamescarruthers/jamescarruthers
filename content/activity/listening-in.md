@@ -1,8 +1,6 @@
 ---
-title: Listening In
-type: Solo exhibition
-date: 2024-03-14
-venue: Example Gallery
-location: London
-link: https://example.com
+title: Shoals
+type: Commission
+date: 2019-10
+link: https://www.marketcafemag.com/previous-issues/issue-5
 ---
