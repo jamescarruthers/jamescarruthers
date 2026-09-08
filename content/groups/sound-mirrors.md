@@ -11,6 +11,6 @@ summary: >
 >
 > The mirror is a machine for listening. After that afternoon it became a totem for our relationship.
 >
-> Since then, losing people, and a brush with my own mortality, have changed what the listening is for. It faces the other way now. Listening for what isn’t there and never will be. But was, once.
+> Since then, losing people, and a brush with my own mortality, have changed what the listening is for. Now it listens for what can’t be seen at all. People at a distance, and people past it.
 >
->A century on the cliff top, facing the sea. A straining ear chasing the ether.
+> A century on the cliff top, facing the sea. A straining ear.
