@@ -16,7 +16,9 @@ noindex tag in this mode. Set `holding` to `false` when the site is ready.
 ## Editing content
 
 Everything lives in `content/`. Each file is markdown with a YAML header
-between `---` lines. The file name becomes the URL slug.
+between `---` lines. The file name becomes the URL slug. Colons, hashes and
+quotes in header values are fine; the build quotes them for you. If a header
+still cannot be read, the build stops and names the file and line.
 
 ```
 content/
