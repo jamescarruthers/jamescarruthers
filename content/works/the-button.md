@@ -9,7 +9,7 @@ tags: [sculpture]
 images:
   - images/works/untitled-drawing.svg
 ---
-I only understood this one after my Uncle passed. He said yes.
+For my uncle.
 
 > The orange button on the telephone did nothing. I pressed it whilst talking. A stim to soothe my social discomfort.
 >
