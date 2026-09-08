@@ -21,6 +21,7 @@ between `---` lines. The file name becomes the URL slug.
 ```
 content/
   index.md            home page text
+  about.md            about page
   contact.md          contact page
   works/              one file per work
   groups/             one file per group of works
